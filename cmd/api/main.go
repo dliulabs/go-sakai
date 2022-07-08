@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"goblockchain/block"
 )
 
@@ -27,4 +28,8 @@ func main() {
 	*/
 	bc.Mining()
 	bc.Print()
+
+	fmt.Printf("my %.1f\n", bc.CalculateTotalAmount(myBlockchainAddress))
+	fmt.Printf("C %.1f\n", bc.CalculateTotalAmount("C"))
+	fmt.Printf("D %.1f\n", bc.CalculateTotalAmount("D"))
 }
