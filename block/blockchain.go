@@ -81,6 +81,7 @@ func (bc *Blockchain) AddTransaction(sender string, recipient string, value floa
 		return true
 	}
 
+	// when adding new transaction to the pool, we need to verify if signature is valid
 	if bc.VerifyTransactionSignature(senderPublicKey, s, t) {
 		/*
 			if bc.CalculateTotalAmount(sender) < value {

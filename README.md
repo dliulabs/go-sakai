@@ -161,3 +161,20 @@ type Signature struct {
 	S *big.Int
 }
 ```
+
+# Lab 9: Verify transaction signature
+
+- get the transaction bytes
+- get the hash of the transaction
+- use the `Verify()` to verify against sender's public key
+
+```
+func (bc *Blockchain) VerifyTransactionSignature(
+	senderPublicKey *ecdsa.PublicKey, s *utils.Signature, t *Transaction) bool {
+	m, _ := json.Marshal(t)
+	h := sha256.Sum256([]byte(m))
+	return ecdsa.Verify(senderPublicKey, h[:], s.R, s.S)
+}
+```
+
+- whenever adding a new transaction to the pool, we must verify signature is valid.
