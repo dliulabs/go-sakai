@@ -63,3 +63,76 @@ type Transaction struct {
 	value                      float32
 }
 ```
+
+# Lab 5: Mining
+
+# Lab 6: Calculate Balance
+
+# Private Key, Public Key, and ECDSA
+
+ECDSA
+
+- 
+
+[Mastering Bitcoiin: Keys](https://www.oreilly.com/library/view/mastering-bitcoin/9781491902639/ch04.html)
+
+[Key Generation](https://pkg.go.dev/crypto/ecdsa#example-package)
+
+[Technical Background of Blockchain Address](https://wiki.bitcoinsv.io/index.php/Technical_background_of_Bitcoin_addresses)
+
+- generate private key using `privateKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)`
+- the PrivateKey has the following struct:
+
+```
+type PrivateKey struct {
+	PublicKey
+	D *big.Int
+}
+```
+
+- to get the public key, all you need is to access the `.PublicKey` property.
+- the public key has the following struct:
+
+```
+type PublicKey struct {
+	elliptic.Curve
+	X, Y *big.Int
+}
+```
+
+- when signing, the Sign() returns a pair of integers (a pair of keys, r & s):
+
+```
+func Sign(rand io.Reader, priv *PrivateKey, hash []byte) (r, s *big.Int, err error)
+```
+
+
+
+```
+import (
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
+	"crypto/sha256"
+	"fmt"
+)
+
+func main() {
+	privateKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		panic(err)
+	}
+
+	msg := "hello, world"
+	hash := sha256.Sum256([]byte(msg))
+
+	sig, err := ecdsa.SignASN1(rand.Reader, privateKey, hash[:])
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("signature: %x\n", sig)
+
+	valid := ecdsa.VerifyASN1(&privateKey.PublicKey, hash[:], sig)
+	fmt.Println("signature verified:", valid)
+}
+```

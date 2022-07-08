@@ -1,26 +1,30 @@
 package block
 
 import (
+	"crypto/ecdsa"
+	"crypto/rand"
+	"crypto/sha256"
 	"encoding/json"
-	"fmt"
-	"strings"
 )
 
 type Transaction struct {
+	senderPrivateKey           *ecdsa.PrivateKey
+	senderPublicKey            *ecdsa.PublicKey
 	senderBlockchainAddress    string
 	recipientBlockchainAddress string
 	value                      float32
 }
 
-func NewTransaction(sender string, recipient string, value float32) *Transaction {
-	return &Transaction{sender, recipient, value}
+func NewTransaction(privateKey *ecdsa.PrivateKey, publicKey *ecdsa.PublicKey,
+	sender string, recipient string, value float32) *Transaction {
+	return &Transaction{privateKey, publicKey, sender, recipient, value}
 }
 
-func (t *Transaction) Print() {
-	fmt.Printf("%s\n", strings.Repeat("-", 40))
-	fmt.Printf(" sender_blockchain_address      %s\n", t.senderBlockchainAddress)
-	fmt.Printf(" recipient_blockchain_address   %s\n", t.recipientBlockchainAddress)
-	fmt.Printf(" value                          %.1f\n", t.value)
+func (t *Transaction) GenerateSignature() *Signature {
+	m, _ := json.Marshal(t)
+	h := sha256.Sum256([]byte(m))
+	r, s, _ := ecdsa.Sign(rand.Reader, t.senderPrivateKey, h[:])
+	return &Signature{r, s}
 }
 
 func (t *Transaction) MarshalJSON() ([]byte, error) {
