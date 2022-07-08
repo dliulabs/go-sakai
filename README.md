@@ -46,3 +46,20 @@ func main() {
 	fmt.Printf("%x", sum)
 }
 ```
+
+# Lab 4: Add a Transaction
+
+- add transactions to the blockchain, new transactions will be stored in the "transaction pool"
+- where creating a new block, transactions in the transaction pool are added to the new block.
+
+[Transaction](https://github.com/ethereum/go-ethereum/blob/ae8ce7202244621d6e80eb69fcc31683fa0d4cea/core/types/transaction.go#L51)
+
+[NewTransaction](https://github.com/ethereum/go-ethereum/blob/9244d5cd61f3ea5a7645fdf2a1a96d53421e412f/core/types/legacy_tx.go#L38)
+
+```
+type Transaction struct {
+	senderBlockchainAddress    string
+	recipientBlockchainAddress string
+	value                      float32
+}
+```

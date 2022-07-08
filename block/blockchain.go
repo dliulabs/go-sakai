@@ -43,9 +43,9 @@ func (bc *Blockchain) MarshalJSON() ([]byte, error) {
 }
 
 func (bc *Blockchain) CreateBlock(nonce int, previousHash [32]byte) *Block {
-	b := NewBlock(nonce, previousHash, bc.transactionPool)
+	b := NewBlock(nonce, previousHash, bc.transactionPool) // pull existing tx in the pool
 	bc.chain = append(bc.chain, b)
-	bc.transactionPool = []*Transaction{}
+	bc.transactionPool = []*Transaction{} // starting a new empty pool
 	return b
 }
 
@@ -81,14 +81,15 @@ func (bc *Blockchain) AddTransaction(sender string, recipient string, value floa
 		return true
 	}
 
-	if bc.VerifyTransactionSignature(senderPublicKey, s, t) {
+	// if bc.VerifyTransactionSignature(senderPublicKey, s, t) {
+	if true { // signature tbd
 		/*
 			if bc.CalculateTotalAmount(sender) < value {
 				log.Println("ERROR: Not enough balance in a wallet")
 				return false
 			}
 		*/
-		bc.transactionPool = append(bc.transactionPool, t)
+		bc.transactionPool = append(bc.transactionPool, t) // adding transaction to the pool
 		return true
 	} else {
 		log.Println("ERROR: Verify Transaction")
