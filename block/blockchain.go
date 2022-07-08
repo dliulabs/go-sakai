@@ -16,7 +16,7 @@ import (
 type Blockchain struct {
 	transactionPool   []*Transaction
 	chain             []*Block
-	blockchainAddress string
+	blockchainAddress string // for receiving mining reward
 	port              uint16
 	mux               sync.Mutex
 }
