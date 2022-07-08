@@ -11,3 +11,14 @@ type Block struct {
 }
 ```
 
+# Lab 2: How to create a Blockchain?
+
+```
+type Blockchain struct {
+	transactionPool   []*Transaction
+	chain             []*Block
+	blockchainAddress string
+	port              uint16
+	mux               sync.Mutex
+}
+```

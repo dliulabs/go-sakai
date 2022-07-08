@@ -1,8 +1,17 @@
 package block
 
 import (
+	"crypto/sha256"
+	"encoding/json"
 	"fmt"
 	"time"
+)
+
+const (
+	MINING_DIFFICULTY = 3
+	MINING_SENDER     = "THE BLOCKCHAIN"
+	MINING_REWARD     = 1.0
+	MINING_TIMER_SEC  = 20
 )
 
 type Block struct {
@@ -28,4 +37,9 @@ func (b *Block) Print() {
 	for _, t := range b.transactions {
 		t.Print()
 	}
+}
+
+func (b *Block) Hash() [32]byte {
+	m, _ := json.Marshal(b)
+	return sha256.Sum256([]byte(m))
 }

@@ -5,6 +5,9 @@ import (
 )
 
 func main() {
-	b := block.NewBlock(0, [32]byte{}, []*block.Transaction{})
-	b.Print()
+	bc := block.NewBlockchain("http://localhost:5000", 8000)
+	hash := bc.LastBlock().Hash()
+	bc.CreateBlock(5, hash)
+	bc.Print()
+
 }
