@@ -68,7 +68,7 @@ type Transaction struct {
 
 # Lab 6: Calculate Balance
 
-# Private Key, Public Key, and ECDSA
+# Lab 7: Private Key, Public Key, and ECDSA
 
 ECDSA
 
@@ -134,5 +134,30 @@ func main() {
 
 	valid := ecdsa.VerifyASN1(&privateKey.PublicKey, hash[:], sig)
 	fmt.Println("signature verified:", valid)
+}
+```
+
+# Lab 8: Generating Signature for Transactions
+
+A signature contains an R and an S part: this is consistent with the returned values of Sign():
+
+`func Sign(rand io.Reader, priv *PrivateKey, hash []byte) (r, s *big.Int, err error)`
+
+
+
+```
+type Transaction struct {
+	senderPrivateKey           *ecdsa.PrivateKey
+	senderPublicKey            *ecdsa.PublicKey
+	senderBlockchainAddress    string
+	recipientBlockchainAddress string
+	value                      float32
+}
+```
+
+```
+type Signature struct {
+	R *big.Int
+	S *big.Int
 }
 ```

@@ -88,7 +88,7 @@ func (bc *Blockchain) AddTransaction(sender string, recipient string, value floa
 				return false
 			}
 		*/
-		bc.transactionPool = append(bc.transactionPool, t) // adding transaction to the pool
+		bc.transactionPool = append(bc.transactionPool, t)
 		return true
 	} else {
 		log.Println("ERROR: Verify Transaction")
