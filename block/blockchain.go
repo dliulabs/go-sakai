@@ -107,7 +107,7 @@ func (bc *Blockchain) VerifyTransactionSignature(
 
 func (bc *Blockchain) CopyTransactionPool() []*Transaction {
 	transactions := make([]*Transaction, 0)
-	for _, t := range bc.transactionPool {
+	for _, t := range bc.transactionPool { // copy tx from the pool, PoW will be calculated based on these.
 		transactions = append(transactions,
 			NewTransaction(t.senderBlockchainAddress,
 				t.recipientBlockchainAddress,
